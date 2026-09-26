@@ -46,6 +46,11 @@
         if ( [fileManager fileExistsAtPath: stickerImage]) {
            imgShare = [[NSData alloc] initWithContentsOfFile:stickerImage];
         }
+        // nil num literal de NSDictionary lança exceção e derruba o app.
+        if (imgShare == nil) {
+            result(@"error");
+            return;
+        }
         
         // Assign background image asset and attribution link URL to pasteboard
         NSMutableDictionary *pasteboardItems = [[NSMutableDictionary alloc]initWithDictionary: @{[NSString stringWithFormat:@"%@.stickerImage",destination] : imgShare}];
@@ -119,7 +124,7 @@
         NSString *captionText = call.arguments[@"captionText"];
         
         NSString *urlSchemeTwitter = [NSString stringWithFormat:@"twitter://post?message=%@",captionText];
-        NSString* urlTextEscaped = [urlSchemeTwitter stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString* urlTextEscaped = [urlSchemeTwitter stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         NSURL *urlSchemeSend = [NSURL URLWithString:urlTextEscaped];
         if (@available(iOS 10.0, *)) {
             [[UIApplication sharedApplication] openURL:urlSchemeSend options:@{} completionHandler:nil];
