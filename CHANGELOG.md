@@ -1,3 +1,7 @@
+## 2.4.1
+
+- Android: o mesmo arquivo como adesivo e fundo vai so como fundo, que abre o editor do Stories em tela cheia (adesivo sozinho cai na camera). O fundo tambem passa a receber permissao de leitura.
+
 ## 2.4.0
 
 - Android de volta, so para os Stories (Instagram e Facebook) e o `checkInstalledAppsForShare`. AGP 8 / Kotlin 2 / JVM 17, `FileProvider` e `<queries>` declarados no manifest do plugin: o app nao precisa configurar nada.

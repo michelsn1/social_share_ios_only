@@ -42,7 +42,9 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private fun shareStory(call: MethodCall, result: Result) {
         val activity = activity
         val stickerImage: String? = call.argument("stickerImage")
-        if (activity == null || stickerImage == null) {
+        val backgroundImage: String? = call.argument("backgroundImage")
+        val backgroundVideo: String? = call.argument("backgroundVideo")
+        if (activity == null || (stickerImage == null && backgroundImage == null && backgroundVideo == null)) {
             result.success("error")
             return
         }
@@ -57,16 +59,24 @@ class SocialSharePlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         val authority = activity.packageName + ".com.shekarmudaliyar.social_share"
         fun uriOf(name: String) = FileProvider.getUriForFile(activity, authority, File(activity.cacheDir, name))
 
-        val sticker = uriOf(stickerImage)
-        intent.type = "image/*"
-        intent.putExtra("interactive_asset_uri", sticker)
-        activity.grantUriPermission(appPackage, sticker, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        fun grant(uri: android.net.Uri) =
+            activity.grantUriPermission(appPackage, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        call.argument<String>("backgroundImage")?.let {
-            intent.setDataAndType(uriOf(it), "image/*")
+        intent.type = "image/*"
+        stickerImage?.let {
+            val sticker = uriOf(it)
+            intent.putExtra("interactive_asset_uri", sticker)
+            grant(sticker)
         }
-        call.argument<String>("backgroundVideo")?.let {
-            intent.setDataAndType(uriOf(it), "video/*")
+        backgroundImage?.let {
+            val uri = uriOf(it)
+            intent.setDataAndType(uri, "image/*")
+            grant(uri)
+        }
+        backgroundVideo?.let {
+            val uri = uriOf(it)
+            intent.setDataAndType(uri, "video/*")
+            grant(uri)
         }
 
         val appId: String? = call.argument("appId")

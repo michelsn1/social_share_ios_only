@@ -58,9 +58,15 @@ class SocialShare {
     var _backgroundResourcePath = backgroundResourcePath;
 
     if (Platform.isAndroid) {
-      var stickerFilename = "stickerAsset.png";
-      await reSaveImage(imagePath, stickerFilename);
-      _imagePath = stickerFilename;
+      // O mesmo arquivo como adesivo e fundo vai so como fundo: no Android, so
+      // o fundo abre o editor em tela cheia; adesivo sozinho cai na camera.
+      if (imagePath != null && imagePath == backgroundResourcePath) {
+        _imagePath = null;
+      } else {
+        var stickerFilename = "stickerAsset.png";
+        await reSaveImage(imagePath, stickerFilename);
+        _imagePath = stickerFilename;
+      }
       if (backgroundResourcePath != null) {
         var backgroundImageFilename = backgroundResourcePath.split("/").last;
         await reSaveImage(backgroundResourcePath, backgroundImageFilename);
