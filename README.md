@@ -13,43 +13,9 @@ With this plugin you can share on instagram stories and facebook stories and als
 
 ### Android Configuration
 
-#### Paste the following attribute in the `manifest` tag in the `android/app/src/main/AndroidManifest.xml`:
+Nothing to configure: the plugin's manifest declares its own `FileProvider` and the `<queries>` that Android 11+ needs to see Instagram and Facebook.
 
-```
- 		`xmlns:tools="http://schemas.android.com/tools"`
-```
-
-##### For example:
-
-```
-        <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                package="your package...">
-```
-
-#### Add this piece of code in the `manifest/application` in the `android/app/src/main/AndroidManifest.xml`:
-
-```
- 		<provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.com.shekarmudaliyar.social_share"
-            android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
-        </provider>
-```
-
-#### Create a xml file named `filepaths.xml` in the `app/src/main/res/xml` folder and paste this code in the file :
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <cache-path name="image" path="/"/>
-</paths>
-```
+On Android only `shareInstagramStory`, `shareFacebookStory` and `checkInstalledAppsForShare` are implemented; the other methods return `notImplemented`.
 
 ### iOS Configuration
 

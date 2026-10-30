@@ -1,3 +1,8 @@
+## 2.4.0
+
+- Android de volta, so para os Stories (Instagram e Facebook) e o `checkInstalledAppsForShare`. AGP 8 / Kotlin 2 / JVM 17, `FileProvider` e `<queries>` declarados no manifest do plugin: o app nao precisa configurar nada.
+- No Android, os outros metodos (`shareOptions`, `copyToClipboard`, `shareWhatsapp`, `shareSms`, `shareTwitter`, `shareTelegram`) devolvem `notImplemented`.
+
 ## 2.3.1
 
 ### Changes for the new version is done by [dpacchi](https://github.com/dpacchi) 🙌🙌
